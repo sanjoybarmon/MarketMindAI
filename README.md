@@ -106,8 +106,8 @@ MarketMind_AI/
 
 ### Step 1 — Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/MarketMind_AI.git
-cd MarketMind_AI
+git clone https://github.com/sanjoybarmon/MarketMindAI.git
+cd MarketMindAI
 ```
 
 ### Step 2 — Install dependencies
@@ -155,7 +155,7 @@ http://localhost:8501
 ![Forecast](outputs/sales_forecast.png)
 
 ### AI Insights Dashboard
-![Insights](outputs/automated_insights_v2.png)
+![Insights](outputs/automated_insights.png)
 
 ---
 
@@ -175,7 +175,7 @@ http://localhost:8501
 **Sanjoy Barmon**
 BSc in Computer Science & Engineering
 Uttara University, Dhaka, Bangladesh
-📧 sanjoybarmon.com
+📧 [Website](https://sanjoybarmon.com/)
 🔗 [LinkedIn](https://linkedin.com/in/sanjoybarmon)
 🐙 [GitHub](https://github.com/sanjoybarmon)
 
@@ -189,7 +189,6 @@ Uttara University, Dhaka, Bangladesh
 | Department | Computer Science & Engineering |
 | Project Type | Final Year Project |
 | Supervisor | Prof. Dr. Md. Obaidur Rahman |
-| Year | 2024-2025 |
 
 ---
 
