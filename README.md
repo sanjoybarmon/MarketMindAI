@@ -6,14 +6,26 @@
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-orange?style=flat&logo=scikit-learn)
 ![Prophet](https://img.shields.io/badge/Prophet-Forecasting-green?style=flat)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat)
+![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?style=flat&logo=streamlit)
 
-> A machine learning-powered analytics tool that transforms raw e-commerce transaction data into actionable business insights — no coding required.
+> A machine learning-powered analytics tool that transforms raw e-commerce
+> transaction data into actionable business insights — no coding required.
+
+## 🚀 Live Demo
+
+**👉 [market-mind-ai.streamlit.app](https://market-mind-ai.streamlit.app/)**
+
+Upload any e-commerce CSV file and get instant AI-generated insights!
 
 ---
 
 ## 📌 Project Overview
 
-MarketMind AI is a Final Year Project built to demonstrate real-world data analytics capabilities for e-commerce businesses. Business owners and marketing managers can upload their sales CSV file and instantly receive AI-generated customer segments, sales forecasts, and strategic recommendations.
+MarketMind AI is a Final Year Project built to demonstrate real-world
+data analytics capabilities for e-commerce businesses. Business owners
+and marketing managers can upload their sales CSV file and instantly
+receive AI-generated customer segments, sales forecasts, and strategic
+recommendations.
 
 **Dataset:** [Online Retail II UCI](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci)
 **Records Analyzed:** 805,549 transactions | 5,878 customers | 41 countries
@@ -35,7 +47,7 @@ MarketMind AI is a Final Year Project built to demonstrate real-world data analy
 - **Key Finding:** £1,924,121 predicted revenue (Dec 2011 — Mar 2012)
 
 ### 💡 Module 3 — Automated Business Insights
-- Rule-based AI engine generates 6 actionable business insights
+- Rule-based AI engine generates actionable business insights
 - Color-coded cards: Revenue, Warning, Opportunity, Forecast
 - Each insight includes a specific recommended action
 - **Key Finding:** 1,523 lost customers represent £667,122 at-risk revenue
@@ -67,6 +79,7 @@ MarketMind AI is a Final Year Project built to demonstrate real-world data analy
 | Machine Learning | Scikit-learn (K-Means) |
 | Forecasting | Facebook Prophet |
 | Visualization | Matplotlib, Seaborn |
+| Deployment | Streamlit Cloud |
 | Dataset | Kaggle — Online Retail II |
 
 ---
@@ -74,7 +87,7 @@ MarketMind AI is a Final Year Project built to demonstrate real-world data analy
 ## 📁 Project Structure
 
 ```
-MarketMind_AI/
+MarketMindAI/
 │
 ├── app.py                          # Main Streamlit application
 ├── README.md                       # Project documentation
@@ -116,7 +129,8 @@ pip install pandas numpy matplotlib seaborn scikit-learn prophet streamlit openp
 ```
 
 ### Step 3 — Add dataset
-Download [Online Retail II](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci) from Kaggle and place `online_retail_II.csv` inside the `data/` folder.
+Download [Online Retail II](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci)
+from Kaggle and place `online_retail_II.csv` inside the `data/` folder.
 
 ### Step 4 — Run the application
 ```bash
@@ -132,18 +146,29 @@ http://localhost:8501
 
 ## 🎯 How to Use
 
-1. **Launch** the app with `streamlit run app.py`
+1. **Launch** the app or visit [market-mind-ai.streamlit.app](https://market-mind-ai.streamlit.app/)
 2. **Upload** your e-commerce CSV file from the sidebar
 3. **Select** an analysis module from the navigation menu
 4. **View** charts, metrics, and AI-generated insights
 5. **Act** on the recommended business strategies
 
+### ✅ Supported Dataset Formats
+
+MarketMind AI supports any e-commerce CSV with:
+
+| Required Column | Examples |
+|----------------|---------|
+| 👤 Customer ID | CustomerID, customer_id, userID |
+| 📅 Date | InvoiceDate, order_date, purchase_date |
+| 💰 Amount | TotalAmount, Sales, revenue |
+| 🧾 Invoice (optional) | Invoice, OrderID, transaction_id |
+
 ---
 
 ## 📸 Screenshots
 
-### Sales Overview
-![Overview](outputs/sales_overview.png)
+### Welcome Screen
+![Welcome](outputs/sales_overview.png)
 
 ### RFM Customer Segmentation
 ![RFM](outputs/rfm_analysis.png)
@@ -155,7 +180,7 @@ http://localhost:8501
 ![Forecast](outputs/sales_forecast.png)
 
 ### AI Insights Dashboard
-![Insights](outputs/automated_insights.png)
+![Insights](outputs/automated_insights_v2.png)
 
 ---
 
@@ -166,7 +191,8 @@ http://localhost:8501
 - [ ] Real-time data pipeline (Apache Kafka)
 - [ ] A/B Testing module
 - [ ] Multi-language support
-- [ ] Streamlit Cloud deployment
+- [ ] Campaign Performance Analysis
+- [ ] Attribution Modeling
 
 ---
 
@@ -175,9 +201,8 @@ http://localhost:8501
 **Sanjoy Barmon**
 BSc in Computer Science & Engineering
 Uttara University, Dhaka, Bangladesh
-📧 [Website](https://sanjoybarmon.com/)
-🔗 [LinkedIn](https://linkedin.com/in/sanjoybarmon)
-🐙 [GitHub](https://github.com/sanjoybarmon)
+🔗 [GitHub](https://github.com/sanjoybarmon)
+🚀 [Live Demo](https://market-mind-ai.streamlit.app/)
 
 ---
 
@@ -189,6 +214,7 @@ Uttara University, Dhaka, Bangladesh
 | Department | Computer Science & Engineering |
 | Project Type | Final Year Project |
 | Supervisor | Prof. Dr. Md. Obaidur Rahman |
+| Year | 2024-2025 |
 
 ---
 
@@ -201,6 +227,10 @@ Feel free to use, modify, and distribute with attribution.
 
 <div align="center">
   <strong>⭐ If you found this project helpful, please give it a star!</strong>
+  <br><br>
+  <a href="https://market-mind-ai.streamlit.app/">
+    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Open in Streamlit">
+  </a>
   <br><br>
   Built with ❤️ by Sanjoy Barmon | Uttara University
 </div>
