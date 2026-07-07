@@ -6,14 +6,15 @@
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-orange?style=flat&logo=scikit-learn)
 ![Prophet](https://img.shields.io/badge/Prophet-Forecasting-green?style=flat)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat)
-![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?style=flat&logo=streamlit)
+![Live](https://img.shields.io/badge/Status-Live-brightgreen?style=flat)
 
-> A machine learning-powered analytics tool that transforms raw e-commerce
-> transaction data into actionable business insights — no coding required.
+> A production-ready, open-source analytics tool built to transform
+> raw e-commerce transaction data into actionable business insights —
+> no coding required.
 
-## 🚀 Live Demo
+## 🚀 Live
 
-**👉 [market-mind-ai.streamlit.app](https://market-mind-ai.streamlit.app/)**
+**👉 [MarketMindAI(https://marketmindai.sanjoybarmon.com/)**
 
 Upload any e-commerce CSV file and get instant AI-generated insights!
 
@@ -21,13 +22,15 @@ Upload any e-commerce CSV file and get instant AI-generated insights!
 
 ## 📌 Project Overview
 
-MarketMind AI is a Final Year Project built to demonstrate real-world
-data analytics capabilities for e-commerce businesses. Business owners
-and marketing managers can upload their sales CSV file and instantly
-receive AI-generated customer segments, sales forecasts, and strategic
+MarketMind AI is a production-ready web application that empowers
+e-commerce business owners and marketing managers to make data-driven
+decisions — without writing a single line of code.
+
+Simply upload your sales CSV file and instantly receive AI-generated
+customer segments, 90-day sales forecasts, and strategic business
 recommendations.
 
-**Dataset:** [Online Retail II UCI](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci)
+**Dataset Used:** [Online Retail II UCI](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci)
 **Records Analyzed:** 805,549 transactions | 5,878 customers | 41 countries
 
 ---
@@ -51,6 +54,13 @@ recommendations.
 - Color-coded cards: Revenue, Warning, Opportunity, Forecast
 - Each insight includes a specific recommended action
 - **Key Finding:** 1,523 lost customers represent £667,122 at-risk revenue
+
+### 🔄 Universal Dataset Support
+- Auto-detects column names from any e-commerce CSV
+- Supports European number formats (6,95 → 6.95)
+- Handles multiple date formats (DD/MM/YYYY, MM-DD-YYYY, etc.)
+- Graceful error messages for invalid or unsupported datasets
+- Tested on 10+ real-world datasets
 
 ---
 
@@ -79,7 +89,8 @@ recommendations.
 | Machine Learning | Scikit-learn (K-Means) |
 | Forecasting | Facebook Prophet |
 | Visualization | Matplotlib, Seaborn |
-| Deployment | Streamlit Cloud |
+| Deployment | Render + Cloudflare |
+| Version Control | GitHub |
 | Dataset | Kaggle — Online Retail II |
 
 ---
@@ -146,7 +157,7 @@ http://localhost:8501
 
 ## 🎯 How to Use
 
-1. **Launch** the app or visit [market-mind-ai.streamlit.app](https://market-mind-ai.streamlit.app/)
+1. **Visit** [MarketMindAI](https://marketmindai.sanjoybarmon.com/) or run locally
 2. **Upload** your e-commerce CSV file from the sidebar
 3. **Select** an analysis module from the navigation menu
 4. **View** charts, metrics, and AI-generated insights
@@ -167,8 +178,8 @@ MarketMind AI supports any e-commerce CSV with:
 
 ## 📸 Screenshots
 
-### Welcome Screen
-![Welcome](outputs/sales_overview.png)
+### Sales Overview
+![Overview](outputs/sales_overview.png)
 
 ### RFM Customer Segmentation
 ![RFM](outputs/rfm_analysis.png)
@@ -192,7 +203,6 @@ MarketMind AI supports any e-commerce CSV with:
 - [ ] A/B Testing module
 - [ ] Multi-language support
 - [ ] Campaign Performance Analysis
-- [ ] Attribution Modeling
 
 ---
 
@@ -201,8 +211,9 @@ MarketMind AI supports any e-commerce CSV with:
 **Sanjoy Barmon**
 BSc in Computer Science & Engineering
 Uttara University, Dhaka, Bangladesh
+🌐 [Website](https://sanjoybarmon.com)
 🔗 [GitHub](https://github.com/sanjoybarmon)
-🚀 [Live Demo](https://market-mind-ai.streamlit.app/)
+🚀 [Live](https://marketmindai.sanjoybarmon.com/)
 
 ---
 
@@ -228,8 +239,8 @@ Feel free to use, modify, and distribute with attribution.
 <div align="center">
   <strong>⭐ If you found this project helpful, please give it a star!</strong>
   <br><br>
-  <a href="https://market-mind-ai.streamlit.app/">
-    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Open in Streamlit">
+  <a href="https://marketmindai.sanjoybarmon.com/">
+    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-marketmindai.sanjoybarmon.com-brightgreen?style=for-the-badge" alt="Live Demo">
   </a>
   <br><br>
   Built with ❤️ by Sanjoy Barmon | Uttara University
