@@ -14,7 +14,7 @@
 
 ## 🚀 Live
 
-**👉 [MarketMindAI(https://marketmindai.sanjoybarmon.com/)**
+**👉 [MarketMindAI(https://market-mind-ai.streamlit.app/)**
 
 Upload any e-commerce CSV file and get instant AI-generated insights!
 
@@ -157,7 +157,7 @@ http://localhost:8501
 
 ## 🎯 How to Use
 
-1. **Visit** [MarketMindAI](https://marketmindai.sanjoybarmon.com/) or run locally
+1. **Visit** [MarketMindAI](https://market-mind-ai.streamlit.app/) or run locally
 2. **Upload** your e-commerce CSV file from the sidebar
 3. **Select** an analysis module from the navigation menu
 4. **View** charts, metrics, and AI-generated insights
@@ -213,7 +213,7 @@ BSc in Computer Science & Engineering
 Uttara University, Dhaka, Bangladesh
 🌐 [Website](https://sanjoybarmon.com)
 🔗 [GitHub](https://github.com/sanjoybarmon)
-🚀 [Live](https://marketmindai.sanjoybarmon.com/)
+🚀 [Live](https://market-mind-ai.streamlit.app/)
 
 ---
 
