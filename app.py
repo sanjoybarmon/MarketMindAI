@@ -272,19 +272,241 @@ with st.sidebar:
         ["🏠 Overview",
          "👥 RFM Segmentation",
          "📈 Sales Forecasting",
-         "💡 AI Insights"],
+         "💡 AI Insights",
+         "🔍 Competitor Analysis"],
         index=0
     )
     st.markdown("---")
     st.markdown("**MarketMind AI v1.0**")
     st.markdown("Final Year Project")
 
+# ═══════════════════════════════════════════════════════
+# PAGE 5 — COMPETITOR ANALYSIS (No CSV Required)
+# ═══════════════════════════════════════════════════════
+if analysis == "🔍 Competitor Analysis":
+    st.markdown("## 🔍 Competitor Analysis")
+    st.markdown("Scraping live **Business Metrics (Sales, Revenue, Discounts)** from **Daraz (Bangladesh)** to analyze true market dynamics.")
 
-# ═══════════════════════════════════════════════════════════
+    cat_input = st.text_input(
+        "📝 Enter products to scrape (comma-separated):", 
+        value="Smartphone, Earphone, Smartwatch",
+        help="Type product names (e.g., T-shirt, Shoes, Router) and press Enter to start."
+    )
+    daraz_categories = [(c.strip().capitalize(), c.strip().lower()) for c in cat_input.split(',') if c.strip()]
+    
+    if not daraz_categories:
+        st.warning("⚠️ Please enter at least one category to scrape.")
+        st.stop()
+
+    st.markdown("---")
+
+    with st.spinner("🔄 Scraping advanced market data from Daraz... (Please wait)"):
+        import time
+        import re
+        import pandas as pd
+
+        all_products = []
+
+        try:
+            from selenium import webdriver
+            from selenium.webdriver.chrome.options import Options
+            from selenium.webdriver.common.by import By
+        except ImportError:
+            st.error("❌ Selenium is not installed! Please run: pip install selenium")
+            st.stop()
+        
+        status_msg = st.empty()
+        status_msg.info("🚀 Launching Chrome to bypass anti-bot protection...")
+        
+        chrome_options = Options()
+        chrome_options.add_argument("--window-size=1920,1080")
+        
+        try:
+            driver = webdriver.Chrome(options=chrome_options)
+            
+            for cat_name, query in daraz_categories:
+                url = f"https://www.daraz.com.bd/catalog/?q={query}"
+                driver.get(url)
+                time.sleep(5) 
+                
+                driver.execute_script("window.scrollTo(0, document.body.scrollHeight/2);")
+                time.sleep(2)
+                
+                items = driver.find_elements(By.CSS_SELECTOR, '[data-qa-locator="product-item"]')
+                
+                for item in items[:15]: 
+                    try:
+                        card_text = item.text
+                        title_elem = item.find_element(By.CSS_SELECTOR, 'a[title]')
+                        title = title_elem.get_attribute('title')
+                        
+                        price_elem = item.find_element(By.XPATH, ".//span[contains(text(), '৳')]")
+                        price_text = price_elem.text.replace('৳', '').replace(',', '').strip()
+                        scaled_price = float(price_text) / 150.0 
+                        
+                        sales_match = re.search(r'([\d,]+)\s*sold', card_text, re.IGNORECASE)
+                        sales = int(sales_match.group(1).replace(',', '')) if sales_match else 0
+                        
+                        review_match = re.search(r'\((\d+)\)', card_text)
+                        reviews = int(review_match.group(1)) if review_match else 0
+                        
+                        discount_match = re.search(r'(\d+)%\s*Off', card_text, re.IGNORECASE)
+                        discount = int(discount_match.group(1)) if discount_match else 0
+                        
+                        all_products.append({
+                            'Title'       : title,
+                            'Price_GBP'   : scaled_price, 
+                            'Sales_Volume': sales,
+                            'Review_Count': reviews,
+                            'Discount_Pct': discount,
+                            'Category'    : cat_name
+                        })
+                    except Exception as e:
+                        continue
+            driver.quit()
+            status_msg.empty() 
+        except Exception as e:
+            st.error(f"❌ Could not scrape Daraz. Error: {str(e)}")
+            st.stop()
+
+        if not all_products:
+            st.error("❌ No products could be scraped! Daraz might be blocking the request with a CAPTCHA.")
+            st.stop()
+            
+        df_comp = pd.DataFrame(all_products).drop_duplicates(subset=['Title'])
+        df_comp = df_comp[df_comp['Price_GBP'] > 0]
+        df_comp['Est_Revenue'] = df_comp['Price_GBP'] * df_comp['Sales_Volume']
+        
+        cat_analysis = df_comp.groupby('Category').agg(
+            Total_Sales   = ('Sales_Volume', 'sum'),
+            Total_Revenue = ('Est_Revenue', 'sum'),
+            Avg_Discount  = ('Discount_Pct', 'mean'),
+            Avg_Price     = ('Price_GBP', 'mean'),
+            Total_Reviews = ('Review_Count', 'sum')
+        ).round(2).sort_values('Total_Sales', ascending=False)
+
+    # ── Comparative KPI Metrics ────────────────────────────────────
+    c1, c2, c3, c4 = st.columns(4)
+    
+    top_selling_cat = cat_analysis['Total_Sales'].idxmax()
+    top_revenue_cat = cat_analysis['Total_Revenue'].idxmax()
+    max_discount_cat = cat_analysis['Avg_Discount'].idxmax()
+    
+    c1.metric("🏆 Top Selling Category", f"{top_selling_cat}")
+    c2.metric("💰 Highest Revenue",      f"{top_revenue_cat}")
+    c3.metric("🏷️ Max Discount Cat.",   f"{max_discount_cat}")
+    c4.metric("📊 Products Analyzed",    f"{len(df_comp)} Items")
+    st.markdown("---")
+
+    # ── Charts ─────────────────────────────────────────
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("#### Market Demand (Total Sales Volume)")
+        top_sales = cat_analysis.sort_values('Total_Sales', ascending=False).head(15)
+        colors = ['#FF5722' if i == 0 else '#2196F3' for i in range(len(top_sales))]
+        fig, ax = plt.subplots(figsize=(8, 6))
+        ax.barh(top_sales.index[::-1], top_sales['Total_Sales'].values[::-1], color=colors[::-1])
+        ax.set_xlabel("Units Sold")
+        ax.grid(True, alpha=0.3, axis='x')
+        fig.tight_layout()
+        st.pyplot(fig); plt.close()
+
+    with col2:
+        st.markdown("#### Estimated Market Size (Revenue)")
+        top_rev = cat_analysis.sort_values('Total_Revenue', ascending=False).head(10)
+        colors2 = ['#FF5722' if i == 0 else '#4CAF50' for i in range(len(top_rev))]
+        fig, ax = plt.subplots(figsize=(8, 6))
+        ax.barh(top_rev.index[::-1], top_rev['Total_Revenue'].values[::-1], color=colors2[::-1])
+        ax.set_xlabel("Estimated Revenue (£/$)")
+        ax.grid(True, alpha=0.3, axis='x')
+        fig.tight_layout()
+        st.pyplot(fig); plt.close()
+
+    st.markdown("---")
+    col3, col4 = st.columns(2)
+
+    with col3:
+        st.markdown("#### Pricing Strategy (Average Discount %)")
+        top_disc = cat_analysis.sort_values('Avg_Discount', ascending=False).head(10)
+        colors3 = ['#9C27B0' if i == 0 else '#FF9800' for i in range(len(top_disc))]
+        fig, ax = plt.subplots(figsize=(8, 5))
+        ax.barh(top_disc.index[::-1], top_disc['Avg_Discount'].values[::-1], color=colors3[::-1])
+        ax.set_xlabel("Discount (%)")
+        ax.grid(True, alpha=0.3, axis='x')
+        fig.tight_layout()
+        st.pyplot(fig); plt.close()
+
+    with col4:
+        st.markdown("#### Price Distribution — Top Categories")
+        top5 = cat_analysis.head(5).index.tolist()
+        cat_prices = [df_comp[df_comp['Category'] == c]['Price_GBP'].values for c in top5]
+        fig, ax = plt.subplots(figsize=(8, 5))
+        bp = ax.boxplot(cat_prices, tick_labels=top5, patch_artist=True)
+        for patch, color in zip(bp['boxes'], ['#2196F3','#4CAF50','#FF9800','#9C27B0','#FF5722']):
+            patch.set_facecolor(color)
+            patch.set_alpha(0.7)
+        ax.set_ylabel("Price (£/$)")
+        ax.tick_params(axis='x', rotation=20)
+        ax.grid(True, alpha=0.3, axis='y')
+        fig.tight_layout()
+        st.pyplot(fig); plt.close()
+
+    # ── Market Insights ────────────────────────────────
+    st.markdown("---")
+    st.markdown("#### 💡 Market Intelligence Insights")
+
+    insights = [
+        {
+            'icon': '🔥', 'color': '#E65100', 'bg': '#FFF3E0',
+            'title': 'Highest Market Demand',
+            'text': (f"{cat_analysis['Total_Sales'].idxmax()} is dominating "
+                     f"with {cat_analysis['Total_Sales'].max():,} units sold.")
+        },
+        {
+            'icon': '💰', 'color': '#2E7D32', 'bg': '#E8F5E9',
+            'title': 'Largest Market Size (Revenue)',
+            'text': (f"{cat_analysis['Total_Revenue'].idxmax()} generated the "
+                     f"most estimated revenue (£{cat_analysis['Total_Revenue'].max():,.2f}).")
+        },
+        {
+            'icon': '🏷️', 'color': '#1565C0', 'bg': '#E3F2FD',
+            'title': 'Most Competitive Pricing',
+            'text': (f"Sellers in {cat_analysis['Avg_Discount'].idxmax()} are offering "
+                     f"avg {cat_analysis['Avg_Discount'].max():.1f}% off to attract buyers.")
+        }
+    ]
+
+    cols = st.columns(3)
+    for i, insight in enumerate(insights):
+        with cols[i % 3]:
+            st.markdown(f"""
+<div style='background:{insight["bg"]};
+        border-left:5px solid {insight["color"]};
+        border-radius:10px; padding:16px 20px;
+        margin-bottom:14px; min-height: 120px;'>
+<div style='color:{insight["color"]}; font-weight:700;
+            font-size:13px; margin-bottom:6px;'>
+    {insight["icon"]} {insight["title"]}
+</div>
+<div style='font-size:14px; color:#37474F; line-height:1.6;'>
+    {insight["text"]}
+</div>
+</div>""", unsafe_allow_html=True)
+
+    # ── Data Table ─────────────────────────────────────
+    st.markdown("---")
+    st.markdown("#### 📋 Category Business Metrics Table")
+    st.dataframe(
+        cat_analysis[['Total_Sales','Total_Revenue','Avg_Discount','Total_Reviews']]\
+        .sort_values('Total_Revenue', ascending=False),
+        use_container_width=True)
+
+
+# ═══════════════════════════════════════════════════════
 # WELCOME SCREEN
-# ═══════════════════════════════════════════════════════════
-
-if uploaded_file is None:
+# ═══════════════════════════════════════════════════════
+elif uploaded_file is None:
     st.markdown("""
     <div style='text-align:center; padding: 60px 0 20px 0;'>
         <h1 style='font-size:48px; color:#1A237E;'>🧠 MarketMind AI</h1>
@@ -297,7 +519,7 @@ if uploaded_file is None:
     </div>
     """, unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.markdown("""
         <div class='metric-card'>
@@ -313,6 +535,13 @@ if uploaded_file is None:
             <div class='metric-label'>90-Day Sales Prediction</div>
         </div>""", unsafe_allow_html=True)
     with col3:
+        st.markdown("""
+        <div class='metric-card'>
+            <div style='font-size:36px;'>🔍</div>
+            <div class='metric-value'>Competitor</div>
+            <div class='metric-label'>Analyse Your Competitor</div>
+        </div>""", unsafe_allow_html=True)
+    with col4:
         st.markdown("""
         <div class='metric-card'>
             <div style='font-size:36px;'>💡</div>
@@ -846,7 +1075,7 @@ Please check your dataset and try again.
             fig.tight_layout()
             st.pyplot(fig); plt.close()
 
-
+    
     # ═══════════════════════════════════════════════════════
     # PAGE 4 — AI INSIGHTS  (now with click-to-reveal actions)
     # ═══════════════════════════════════════════════════════
